@@ -11,7 +11,7 @@ export default function AnaloguesList(props) {
       <ul className={s.analogues}>
         {analogues && analogues.length > 0
           ? analogues.map((analogue) => (
-              <li className={s.analog}>
+              <li key={analogue.goodsID} className={s.analog}>
                 <ProductCard product={analogue} />
               </li>
             ))
