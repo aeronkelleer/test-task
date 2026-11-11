@@ -10,6 +10,7 @@ import {
   selectProductAnalogues,
   setCurrentArticle,
 } from '../../../store/slices/parts-slice.js';
+import AnaloguesList from '../../layout/analogues-list/analogues-list.jsx';
 import BrandList from '../../layout/brand-list/brand-list.jsx';
 import Container from '../../layout/container/container';
 import ProductCard from '../../layout/product-card/product-card.jsx';
@@ -50,8 +51,7 @@ export default function Section() {
 
         <ProductCard product={product} />
 
-        <pre>{JSON.stringify(product, null, 2)}</pre>
-        <pre>{JSON.stringify(analogues, null, 2)}</pre>
+        <AnaloguesList analogues={analogues} />
       </Container>
     </section>
   );

@@ -22,7 +22,7 @@ export default function ProductCard(props) {
             </li>
           ))}
         </ul>
-      ): 'Нет товаров'}
+      ): 'Нет товаров на складе'}
     </div>
   );
 }
