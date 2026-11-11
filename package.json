@@ -1,0 +1,41 @@
+{
+  "name": "vite_template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run clean && vite",
+    "clean": "node -e \"const fs = require('node:fs'); ['dist'].forEach((path) => fs.rmSync(path, { recursive: true, force: true }))\"",
+    "prebuild": "npm run clean",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=1024 vite build",
+    "lint": "npm run clean && eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.14.0",
+    "axios": "^1.21.1",
+    "clsx": "^2.1.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-redux": "^9.3.1",
+    "react-router-dom": "^7.18.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-react": "^6.3.0",
+    "concurrently": "^10.0.7",
+    "cross-env": "^10.1.0",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.14.0",
+    "sass": "^1.108.2",
+    "vite": "^8.3.8"
+  },
+  "overrides": {
+    "baseline-browser-mapping": "^2.11.35",
+    "browserslist": "^4.29.5",
+    "minimatch": "^11.0.8",
+    "zod": "^4.6.7"
+  }
+}
