@@ -101,3 +101,7 @@ export const selectProduct = createSelector([selectAnalogues], (data) => {
 
   return rest;
 });
+
+export const selectIsLoading = createSelector([selectPartsStatus, selectAnaloguesStatus], (partsStatus, analoguesStatus) => {
+  return [partsStatus, analoguesStatus].some((status) => status === LoadingStatus.LOADING);
+});
