@@ -92,7 +92,12 @@ export const selectProductAnalogues = createSelector([selectAnalogues], (analogs
 
   if (!product?.number || !Array.isArray(product.analogues)) return [];
 
-  return product.analogues;
+  return [...product.analogues].sort((a, b) => {
+    const aInStock = a.warehouses?.some((warehouse) => warehouse.stock > 0);
+    const bInStock = b.warehouses?.some((warehouse) => warehouse.stock > 0);
+
+    return Number(bInStock) - Number(aInStock);
+  });
 });
 
 export const selectProduct = createSelector([selectAnalogues], (analogsState) => {
