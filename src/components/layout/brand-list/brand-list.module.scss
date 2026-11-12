@@ -1,7 +1,11 @@
 .brand-list {
-  border: 1px solid #ff0000;
-  padding: 10px;
   margin-block: 10px;
+  padding-inline: 20px;
+  padding-block: 16px;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  background-color: var(--white);
 }
 
 .brands {
@@ -10,7 +14,15 @@
 }
 
 .brand-button {
-  border: 1px solid #000;
   padding-inline: 10px;
   padding-block: 4px;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  background-color: var(--light-gray);
+  font-size: 16px;
+  transition: all 250ms;
+
+  @include HOVER {
+    background-color: var(--gray);
+  }
 }

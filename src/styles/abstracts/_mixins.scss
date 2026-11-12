@@ -1,0 +1,126 @@
+@use './variables' as *;
+
+// %======================== MIXINS ========================% //
+
+// %------------ square ------------% //
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+// %------------ circle ------------% //
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+}
+
+// %------------ hide scrollbar ------------% //
+@mixin hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
+
+  -ms-overflow-style: none; // IE and Edge 
+  scrollbar-width: none; // Firefox
+}
+
+// %------------ normalize font ------------% //
+// if it is bolder than needed
+@mixin normalize-font {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
+
+// %------------ line clamp ------------% //
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// %------------ autoAlpha ------------% // 
+@mixin autoAlpha0 {
+  visibility: hidden;
+  opacity: 0;
+}
+
+// %------------ MEDIA ------------% //
+
+@mixin MEDIA($width) {
+  $previous-width: $ADAPT_WIDTH;
+
+  $ADAPT_WIDTH: $width !global;
+
+  @media (max-width: $width) {
+    @content;
+  }
+
+  $ADAPT_WIDTH: $previous-width !global;
+}
+
+// %------------ hover ------------% //
+@mixin HOVER() {
+  @media (hover:hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin ACTIVE() {
+  &:active {
+    @content;
+  }
+}
+
+// %------------ border-radii ------------% //
+@mixin border-radius-top-left($value) {
+  border-radius: $value 0 0 0;
+}
+
+@mixin border-radius-top-right($value) {
+  border-radius: 0 $value 0 0;
+}
+
+@mixin border-radius-bottom-right($value) {
+  border-radius: 0 0 $value 0;
+}
+
+@mixin border-radius-bottom-left($value) {
+  border-radius: 0 0 0 $value;
+}
+
+@mixin border-radius-top($value) {
+  border-radius: $value $value 0 0;
+}
+
+@mixin border-radius-right($value) {
+  border-radius: 0 $value $value 0;
+}
+
+@mixin border-radius-bottom($value) {
+  border-radius: 0 0 $value $value;
+}
+
+@mixin border-radius-left($value) {
+  border-radius: $value 0 0 $value;
+}
+
+@mixin border-radius-diagonal-main($value) {
+  border-radius: $value 0 $value 0;
+}
+
+@mixin border-radius-diagonal-secondary($value) {
+  border-radius: 0 $value 0 $value;
+}
+
+@mixin shadow-text-stroke($width, $color) {
+  text-shadow:
+    calc(-1 * $width) calc(-1 * $width) 0 $color,
+    $width calc(-1 * $width) 0 $color,
+    calc(-1 * $width) $width 0 $color,
+    $width $width 0 $color;
+}

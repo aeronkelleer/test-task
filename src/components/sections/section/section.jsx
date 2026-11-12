@@ -47,11 +47,21 @@ export default function Section() {
         <p>загрузка: {String(isLoading)}</p>
         <p>ошибка: {String(error)}</p>
 
-        <BrandList brands={brands} onSelect={handleBrandSelect} />
+        {brands && brands.length > 0 && <BrandList brands={brands} onSelect={handleBrandSelect} />}
 
-        <ProductCard product={product} />
+        {product && (
+          <div className={s['main-product']}>
+            <p className={s.title}>Результат поиска:</p>
+            <ProductCard product={product} />
+          </div>
+        )}
 
-        <AnaloguesList analogues={analogues} />
+        {analogues && analogues.length > 0 && (
+          <div className={s.analogues}>
+            <p className={s.title}>Аналоги: </p>
+            <AnaloguesList analogues={analogues} />
+          </div>
+        )}
       </Container>
     </section>
   );
