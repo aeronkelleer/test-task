@@ -7,17 +7,9 @@ import Preloader from '../ui/preloader/preloader';
 
 export default function App() {
   return (
-    // <Routes>
-    //   {/* <Route path={AppRoute.LOGIN} element={<LoginPage />} /> */}
-    //   {/* <Route path={AppRoute.HOME} element={<PrivateRoute element={<Layout />} />}> */}
-    //   <Route path={AppRoute.HOME} element={<HomePage />} />
-    //   {/* </Route> */}
-    // </Routes>
-    <>
-      <Wrapper>
-        <MainSection />
-        <Preloader />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <MainSection />
+      <Preloader />
+    </Wrapper>
   );
 }
