@@ -35,7 +35,7 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: /test-task/
-          VITE_API_PATH: http://api.favorit-parts.ru/hs/hsprice/
+          VITE_API_PATH: https://api.favorit-parts.ru/hs/hsprice/
           VITE_API_KEY: 00000000-0000-0000-0000-000000000001
 
       - name: Setup Pages
