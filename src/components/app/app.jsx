@@ -1,5 +1,6 @@
 import '@/styles/index.scss';
-import Section from '../sections/section/section';
+import Wrapper from '../layout/wrapper/wrapper';
+import MainSection from '../sections/main-section/main-section';
 
 // ^======================== App ========================^ //
 
@@ -12,8 +13,9 @@ export default function App() {
     //   {/* </Route> */}
     // </Routes>
     <>
-    <Section/>
-
+      <Wrapper>
+        <MainSection />
+      </Wrapper>
     </>
   );
 }

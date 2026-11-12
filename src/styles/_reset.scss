@@ -37,17 +37,21 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smooth: never;
+  min-height: 100%;
 }
 
 html,
 body {
-  // height: 100%;
   width: 100%;
   font-size: 100%;
   line-height: 1;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
 }
 
 input,

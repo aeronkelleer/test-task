@@ -1,17 +1,22 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../constants/const';
+import { LoadingStatus, NameSpace } from '../../constants/const';
 import { getAnalogues, getParts } from '../api-actions/api-actions';
 
 // %======================== partsSlice ========================% //
 
 const initialState = {
-  parts: [],
-  analogues: null,
-  isLoading: false,
-  isPartsLoading: false,
-  error: null,
-  analoguesError: null,
-  currentArticle: ''
+  parts: {
+    data: [],
+    status: LoadingStatus.UNKNOWN,
+    error: null
+  },
+  analogues: {
+    data: [],
+    status: LoadingStatus.UNKNOWN,
+    error: null,
+  },
+  currentArticle: '',
+  currentBrand: '',
 };
 
 export const partsSlice = createSlice({
@@ -21,49 +26,56 @@ export const partsSlice = createSlice({
     setCurrentArticle: (state, action) => {
       state.currentArticle = action.payload;
     },
+    setCurrentBrand: (state, action) => {
+      state.currentBrand = action.payload;
+    },
+    dropParts: (state) => {
+      state.parts = initialState.parts;
+    },
     dropAnalogues: (state) => {
-      state.analogues = null;
-      console.log(1)
+      state.analogues = initialState.analogues;
     }
   },
   extraReducers(builder) {
     builder
       .addCase(getParts.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        state.parts.status = LoadingStatus.LOADING;
       })
       .addCase(getParts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.parts = action.payload.goods || [];
+        state.parts.status = LoadingStatus.LOADED;
+        state.parts.data = action.payload.goods || [];
       })
       .addCase(getParts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
+        state.parts.status = LoadingStatus.ERROR;
+        state.parts.error = action.error.message;
       })
       .addCase(getAnalogues.pending, (state) => {
-        state.isPartsLoading = true;
+        state.analogues.status = LoadingStatus.LOADING;
       })
       .addCase(getAnalogues.fulfilled, (state, action) => {
-        state.isPartsLoading = false;
-        state.analogues = action.payload;
+        state.analogues.status = LoadingStatus.LOADED;
+        state.analogues.data = action.payload;
       })
       .addCase(getAnalogues.rejected, (state, action) => {
-        state.isPartsLoading = false;
-        state.analoguesError = action.error.message;
+        state.analogues.status = LoadingStatus.ERROR;
+        state.analogues.error = action.error.message;
       });
   },
   selectors: {
-    selectParts: (state) => state.parts,
-    selectIsLoading: (state) => state.isLoading,
-    selectError: (state) => state.error,
-    selectAnalogues: (state) => state.analogues,
-    selectCurrentArticle: (state) => state.currentArticle
+    selectParts: (state) => state.parts.data,
+    selectPartsStatus: (state) => state.parts.status,
+    selectPartsError: (state) => state.parts.error,
+    selectAnalogues: (state) => state.analogues.data,
+    selectAnaloguesStatus: (state) => state.analogues.status,
+    selectAnaloguesError: (state) => state.analogues.error,
+    selectCurrentArticle: (state) => state.currentArticle,
+    selectCurrentBrand: (state) => state.currentBrand
   },
 });
 
 
-export const { setCurrentArticle, dropAnalogues } = partsSlice.actions;
-export const { selectParts, selectError, selectIsLoading, selectCurrentArticle, selectAnalogues } = partsSlice.selectors;
+export const { setCurrentArticle, dropParts, dropAnalogues, setCurrentBrand } = partsSlice.actions;
+export const { selectParts, selectPartsError, selectPartsStatus, selectCurrentArticle, selectCurrentBrand, selectAnalogues, selectAnaloguesStatus, selectAnaloguesError } = partsSlice.selectors;
 
 export const selectBrands = createSelector([selectParts], (parts) => {
   const brands = parts.map((part) => part.brand);

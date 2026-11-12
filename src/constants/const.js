@@ -52,6 +52,13 @@ export const MediaPrefix = {
   MOB: '_mob',
 };
 
+export const LoadingStatus = {
+  UNKNOWN: 'UNKNOWN',
+  LOADING: 'LOADING',
+  LOADED: 'LOADED',
+  ERROR: 'ERROR',
+};
+
 // %------------------------ store ------------------------% //
 export const NameSpace = {
   PARTS: 'PARTS',

@@ -1,7 +1,16 @@
 .search-button {
-  border: 1px solid #000;
-  border-radius: 10px;
+  width: 150px;
   padding-inline: 10px;
   padding-block: 4px;
-  background-color: #ddd;
+  border: 1px solid var(--gray);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  background-color: var(--light-gray);
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 250ms;
+
+  @include HOVER {
+    background-color: var(--gray);
+  }
 }

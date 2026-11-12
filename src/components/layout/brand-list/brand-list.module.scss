@@ -10,6 +10,7 @@
 
 .brands {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -24,5 +25,10 @@
 
   @include HOVER {
     background-color: var(--gray);
+  }
+
+  &._selected {
+    background-color: var(--blue);
+    color: var(--white);
   }
 }
