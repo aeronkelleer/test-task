@@ -6,6 +6,10 @@
   box-shadow: var(--card-shadow);
   background-color: var(--white);
   margin-bottom: 24px;
+
+  @include MEDIA($TAB_WIDTH) {
+    padding: adapt(20px, 14px);
+  }
 }
 
 .brands {
