@@ -5,13 +5,11 @@ import {
   dropAnalogues,
   dropCurrentBrand,
   dropParts,
-  selectAnaloguesError,
-  selectAnaloguesStatus,
+  selectAnalogues,
   selectBrands,
   selectCurrentArticle,
   selectCurrentBrand,
-  selectPartsError,
-  selectPartsStatus,
+  selectParts,
   selectProduct,
   selectProductAnalogues,
   setCurrentArticle,
@@ -29,16 +27,15 @@ import s from './main-section.module.scss';
 
 export default function MainSection() {
   const dispatch = useDispatch();
-  const currentArticle = useSelector(selectCurrentArticle);
 
+  const partsState = useSelector(selectParts);
+  const analoguesState = useSelector(selectAnalogues);
+  
   const brands = useSelector(selectBrands);
-
   const product = useSelector(selectProduct);
-  const partsLoadingStatus = useSelector(selectPartsStatus);
-  const analogues = useSelector(selectProductAnalogues);
-  const analoguesLoadingStatus = useSelector(selectAnaloguesStatus);
-  const partsError = useSelector(selectPartsError);
-  const analoguesError = useSelector(selectAnaloguesError);
+  const productAnalogues = useSelector(selectProductAnalogues);
+  
+  const currentArticle = useSelector(selectCurrentArticle);
   const currentBrand = useSelector(selectCurrentBrand);
 
   const handleSearch = (value) => {
@@ -62,7 +59,7 @@ export default function MainSection() {
         <SearchForm onSearch={handleSearch} />
 
         <div className={s.brands}>
-          {partsLoadingStatus === LoadingStatus.LOADED &&
+          {partsState.status === LoadingStatus.LOADED &&
             (brands.length > 0 ? (
               <>
                 <p className={s.title}>Бренды:</p>
@@ -71,13 +68,13 @@ export default function MainSection() {
             ) : (
               <p className={s.message}>Деталь не найдена</p>
             ))}
-          {partsLoadingStatus === LoadingStatus.ERROR && (
-            <ErrorMessage text='Произошла ошибка' message={partsError} />
+          {partsState.status === LoadingStatus.ERROR && (
+            <ErrorMessage text='Произошла ошибка' message={partsState.error} />
           )}
         </div>
 
         <div className={s['main-product']}>
-          {analoguesLoadingStatus === LoadingStatus.LOADED && product && (
+          {analoguesState.status === LoadingStatus.LOADED && product && (
             <>
               <p className={s.title}>Результат поиска:</p>
               <ProductCard product={product} modifier='original' />
@@ -86,17 +83,17 @@ export default function MainSection() {
         </div>
 
         <div className={s.analogues}>
-          {analoguesLoadingStatus === LoadingStatus.LOADED &&
-            (analogues.length > 0 ? (
+          {analoguesState.status === LoadingStatus.LOADED &&
+            (productAnalogues.length > 0 ? (
               <>
-                <p className={s.title}>Аналоги: </p>
-                <AnaloguesList analogues={analogues} key={currentBrand} />
+                <p className={s.title}>Аналоги:</p>
+                <AnaloguesList analogues={productAnalogues} key={currentBrand} />
               </>
             ) : (
               <p className={s.message}>Аналоги не найдены</p>
             ))}
-          {analoguesLoadingStatus === LoadingStatus.ERROR && (
-            <ErrorMessage text='Произошла ошибка' message={analoguesError} />
+          {analoguesState.status === LoadingStatus.ERROR && (
+            <ErrorMessage text='Произошла ошибка' message={analoguesState.error} />
           )}
         </div>
       </Container>

@@ -47,7 +47,9 @@ export const partsSlice = createSlice({
       })
       .addCase(getParts.fulfilled, (state, action) => {
         state.parts.status = LoadingStatus.LOADED;
-        state.parts.data = action.payload.goods || [];
+        state.parts.data = Array.isArray(action.payload.goods)
+          ? action.payload.goods
+          : [];
       })
       .addCase(getParts.rejected, (state, action) => {
         state.parts.status = LoadingStatus.ERROR;
@@ -67,12 +69,8 @@ export const partsSlice = createSlice({
       });
   },
   selectors: {
-    selectParts: (state) => state.parts.data,
-    selectPartsStatus: (state) => state.parts.status,
-    selectPartsError: (state) => state.parts.error,
-    selectAnalogues: (state) => state.analogues.data,
-    selectAnaloguesStatus: (state) => state.analogues.status,
-    selectAnaloguesError: (state) => state.analogues.error,
+    selectParts: (state) => state.parts,
+    selectAnalogues: (state) => state.analogues,
     selectCurrentArticle: (state) => state.currentArticle,
     selectCurrentBrand: (state) => state.currentBrand
   },
@@ -80,25 +78,25 @@ export const partsSlice = createSlice({
 
 
 export const { setCurrentArticle, dropParts, dropAnalogues, setCurrentBrand, dropCurrentBrand } = partsSlice.actions;
-export const { selectParts, selectPartsError, selectPartsStatus, selectCurrentArticle, selectCurrentBrand, selectAnalogues, selectAnaloguesStatus, selectAnaloguesError } = partsSlice.selectors;
+export const { selectParts, selectCurrentArticle, selectCurrentBrand, selectAnalogues } = partsSlice.selectors;
 
 export const selectBrands = createSelector([selectParts], (parts) => {
-  const brands = parts.map((part) => part.brand);
+  const brands = parts.data.map((part) => part.brand);
   const uniqueBrands = [...new Set(brands)];
 
   return uniqueBrands.filter((brand) => Boolean(brand));
 });
 
-export const selectProductAnalogues = createSelector([selectAnalogues], (data) => {
-  const product = data?.goods?.[0];
+export const selectProductAnalogues = createSelector([selectAnalogues], (analogsState) => {
+  const product = analogsState.data?.goods?.[0];
 
   if (!product?.number || !Array.isArray(product.analogues)) return [];
 
   return product.analogues;
 });
 
-export const selectProduct = createSelector([selectAnalogues], (data) => {
-  const product = data?.goods?.[0];
+export const selectProduct = createSelector([selectAnalogues], (analogsState) => {
+  const product = analogsState.data?.goods?.[0];
 
   if (!product?.number) return null;
 
@@ -107,6 +105,6 @@ export const selectProduct = createSelector([selectAnalogues], (data) => {
   return rest;
 });
 
-export const selectIsLoading = createSelector([selectPartsStatus, selectAnaloguesStatus], (partsStatus, analoguesStatus) => {
-  return [partsStatus, analoguesStatus].some((status) => status === LoadingStatus.LOADING);
+export const selectIsLoading = createSelector([selectParts, selectAnalogues], (parts, analogues) => {
+  return [parts.status, analogues.status].some((status) => status === LoadingStatus.LOADING);
 });
