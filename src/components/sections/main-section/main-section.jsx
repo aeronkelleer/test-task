@@ -3,9 +3,13 @@ import { LoadingStatus } from '../../../constants/const.js';
 import { getAnalogues, getParts } from '../../../store/api-actions/api-actions.js';
 import {
   dropAnalogues,
+  dropCurrentBrand,
   dropParts,
+  selectAnaloguesError,
+  selectAnaloguesStatus,
   selectBrands,
   selectCurrentArticle,
+  selectPartsError,
   selectPartsStatus,
   selectProduct,
   selectProductAnalogues,
@@ -17,6 +21,7 @@ import BrandList from '../../layout/brand-list/brand-list.jsx';
 import Container from '../../layout/container/container.jsx';
 import ProductCard from '../../layout/product-card/product-card.jsx';
 import SearchForm from '../../layout/search-form/search-form.jsx';
+import ErrorMessage from '../../ui/error-message/error-message.jsx';
 import s from './main-section.module.scss';
 
 // @======================== MainSection ========================@ //
@@ -30,17 +35,23 @@ export default function MainSection() {
   const product = useSelector(selectProduct);
   const partsLoadingStatus = useSelector(selectPartsStatus);
   const analogues = useSelector(selectProductAnalogues);
+  const analoguesLoadingStatus = useSelector(selectAnaloguesStatus);
+  const partsError = useSelector(selectPartsError);
+  const analoguesError = useSelector(selectAnaloguesError);
 
   const handleSearch = (value) => {
-    dispatch(dropAnalogues());
     dispatch(dropParts());
-    dispatch(getParts(value));
+    dispatch(dropAnalogues());
+    dispatch(dropCurrentBrand());
+
     dispatch(setCurrentArticle(value));
+    dispatch(getParts(value));
   };
 
   const handleBrandSelect = (brand) => {
-    dispatch(getAnalogues({ article: currentArticle, brand }));
+    dispatch(dropAnalogues());
     dispatch(setCurrentBrand(brand));
+    dispatch(getAnalogues({ article: currentArticle, brand }));
   };
 
   return (
@@ -48,30 +59,44 @@ export default function MainSection() {
       <Container>
         <SearchForm onSearch={handleSearch} />
 
-        {brands && brands.length > 0 && (
-          <div className={s.brands}>
-            <p className={s.title}>Бренды:</p>
-            <BrandList brands={brands} onSelect={handleBrandSelect} />
-          </div>
-        )}
+        <div className={s.brands}>
+          {partsLoadingStatus === LoadingStatus.LOADED &&
+            (brands.length > 0 ? (
+              <>
+                <p className={s.title}>Бренды:</p>
+                <BrandList brands={brands} onSelect={handleBrandSelect} />
+              </>
+            ) : (
+              <p className={s.message}>Деталь не найдена</p>
+            ))}
+          {partsLoadingStatus === LoadingStatus.ERROR && (
+            <ErrorMessage text='Произошла ошибка' message={partsError} />
+          )}
+        </div>
 
-        {partsLoadingStatus === LoadingStatus.LOADED && brands.length === 0 && (
-          <p className={s.message}>Деталь не найдена</p>
-        )}
+        <div className={s['main-product']}>
+          {analoguesLoadingStatus === LoadingStatus.LOADED && product && (
+            <>
+              <p className={s.title}>Результат поиска:</p>
+              <ProductCard product={product} modifier='original' />
+            </>
+          )}
+        </div>
 
-        {partsLoadingStatus === LoadingStatus.LOADED && product && (
-          <div className={s['main-product']}>
-            <p className={s.title}>Результат поиска:</p>
-            <ProductCard product={product} />
-          </div>
-        )}
-
-        {analogues && analogues.length > 0 && (
-          <div className={s.analogues}>
-            <p className={s.title}>Аналоги: </p>
-            <AnaloguesList analogues={analogues} />
-          </div>
-        )}
+        <div className={s.analogues}>
+          {analoguesLoadingStatus === LoadingStatus.LOADED &&
+            (analogues.length > 0 ? (
+              <>
+                <p className={s.title}>Аналоги: </p>
+                <AnaloguesList analogues={analogues} />
+              </>
+            ) : (
+              <p className={s.message}>Аналоги не найдены</p>
+            ))}
+          {analoguesLoadingStatus === LoadingStatus.ERROR && (
+            <ErrorMessage text='Произошла ошибка' message={analoguesError} />
+          )}
+        </div>
       </Container>
     </section>
   );

@@ -9,6 +9,7 @@
   background-color: #33333333;
   font-size: 80px;
   transition: all 250ms;
+  backdrop-filter: blur(4px);
 
   &._visible {
     visibility: visible;

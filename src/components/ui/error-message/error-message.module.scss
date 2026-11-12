@@ -1,0 +1,15 @@
+.error-message {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--red);
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.message {
+  font-size: 14px;
+}

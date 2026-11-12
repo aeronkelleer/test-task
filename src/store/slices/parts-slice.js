@@ -29,6 +29,9 @@ export const partsSlice = createSlice({
     setCurrentBrand: (state, action) => {
       state.currentBrand = action.payload;
     },
+    dropCurrentBrand: (state) => {
+      state.currentBrand = '';
+    },
     dropParts: (state) => {
       state.parts = initialState.parts;
     },
@@ -40,6 +43,7 @@ export const partsSlice = createSlice({
     builder
       .addCase(getParts.pending, (state) => {
         state.parts.status = LoadingStatus.LOADING;
+        state.parts.error = null;
       })
       .addCase(getParts.fulfilled, (state, action) => {
         state.parts.status = LoadingStatus.LOADED;
@@ -51,6 +55,7 @@ export const partsSlice = createSlice({
       })
       .addCase(getAnalogues.pending, (state) => {
         state.analogues.status = LoadingStatus.LOADING;
+        state.analogues.error = null;
       })
       .addCase(getAnalogues.fulfilled, (state, action) => {
         state.analogues.status = LoadingStatus.LOADED;
@@ -74,7 +79,7 @@ export const partsSlice = createSlice({
 });
 
 
-export const { setCurrentArticle, dropParts, dropAnalogues, setCurrentBrand } = partsSlice.actions;
+export const { setCurrentArticle, dropParts, dropAnalogues, setCurrentBrand, dropCurrentBrand } = partsSlice.actions;
 export const { selectParts, selectPartsError, selectPartsStatus, selectCurrentArticle, selectCurrentBrand, selectAnalogues, selectAnaloguesStatus, selectAnaloguesError } = partsSlice.selectors;
 
 export const selectBrands = createSelector([selectParts], (parts) => {
