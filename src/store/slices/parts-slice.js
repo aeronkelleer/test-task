@@ -53,7 +53,7 @@ export const partsSlice = createSlice({
       })
       .addCase(getParts.rejected, (state, action) => {
         state.parts.status = LoadingStatus.ERROR;
-        state.parts.error = action.error.message;
+        state.parts.error = action.payload ?? action.error.message;
       })
       .addCase(getAnalogues.pending, (state) => {
         state.analogues.status = LoadingStatus.LOADING;
@@ -65,7 +65,7 @@ export const partsSlice = createSlice({
       })
       .addCase(getAnalogues.rejected, (state, action) => {
         state.analogues.status = LoadingStatus.ERROR;
-        state.analogues.error = action.error.message;
+        state.analogues.error = action.payload ?? action.error.message;
       });
   },
   selectors: {

@@ -30,11 +30,11 @@ export default function MainSection() {
 
   const partsState = useSelector(selectParts);
   const analoguesState = useSelector(selectAnalogues);
-  
+
   const brands = useSelector(selectBrands);
   const product = useSelector(selectProduct);
   const productAnalogues = useSelector(selectProductAnalogues);
-  
+
   const currentArticle = useSelector(selectCurrentArticle);
   const currentBrand = useSelector(selectCurrentBrand);
 
@@ -89,9 +89,7 @@ export default function MainSection() {
                 <p className={s.title}>Аналоги:</p>
                 <AnaloguesList analogues={productAnalogues} key={currentBrand} />
               </>
-            ) : (
-              <p className={s.message}>Аналоги не найдены</p>
-            ))}
+            ) : <p className={s.message}>{product ? 'Аналоги не найдены' : 'Деталь не найдена'}</p>)}
           {analoguesState.status === LoadingStatus.ERROR && (
             <ErrorMessage text='Произошла ошибка' message={analoguesState.error} />
           )}
