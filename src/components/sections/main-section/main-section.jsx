@@ -89,7 +89,9 @@ export default function MainSection() {
                 <p className={s.title}>Аналоги:</p>
                 <AnaloguesList analogues={productAnalogues} key={currentBrand} />
               </>
-            ) : <p className={s.message}>{product ? 'Аналоги не найдены' : 'Деталь не найдена'}</p>)}
+            ) : (
+              <p className={s.message}>{product ? 'Аналоги не найдены' : 'Деталь не найдена'}</p>
+            ))}
           {analoguesState.status === LoadingStatus.ERROR && (
             <ErrorMessage text='Произошла ошибка' message={analoguesState.error} />
           )}

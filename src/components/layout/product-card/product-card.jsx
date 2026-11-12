@@ -37,7 +37,7 @@ export default function ProductCard(props) {
                 </div>
                 <div className={clsx(s.detail, s._price)}>
                   <p className={s['detail-key']}>Цена: </p>
-                  <p className={s['detail-value']}>{price} руб.</p>
+                  <p className={s['detail-value']}>{price.toFixed(2)} ₽</p>
                 </div>
               </li>
             ))}

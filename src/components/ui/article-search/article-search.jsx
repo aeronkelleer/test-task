@@ -13,6 +13,7 @@ export default function ArticleSearch(props) {
       value={value}
       onChange={onChange}
       placeholder='Введите артикул запчасти'
+      required
     />
   );
 }

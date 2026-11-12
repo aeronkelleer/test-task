@@ -16,15 +16,18 @@ export default function SearchForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(inputValue);
+    if (!inputValue.trim()) {
+      setInputValue('');
+      return;
+    }
+
+    onSearch(inputValue.trim());
   };
 
   return (
     <form className={s['search-form']} onSubmit={handleSubmit}>
       <ArticleSearch onChange={handleInputChange} value={inputValue} />
-      <Button onClick={handleSubmit} type='submit'>
-        Поиск
-      </Button>
+      <Button type='submit'>Поиск</Button>
     </form>
   );
 }
