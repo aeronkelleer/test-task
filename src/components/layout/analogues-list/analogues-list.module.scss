@@ -1,7 +1,15 @@
-.analogues-list {}
+.analogues-list {
+  display: flex;
+  flex-direction: column;
+}
 
 .analogues {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-bottom: 24px;
+}
+
+.button {
+  align-self: center;
 }

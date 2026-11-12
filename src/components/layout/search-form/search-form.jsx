@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ArticleSearch from '../../ui/article-search/article-search';
-import SearchButton from '../../ui/search-button/search-button';
+import Button from '../../ui/button/button';
 import s from './search-form.module.scss';
 
 // &======================== SearchForm ========================& //
@@ -22,7 +22,9 @@ export default function SearchForm(props) {
   return (
     <form className={s['search-form']} onSubmit={handleSubmit}>
       <ArticleSearch onChange={handleInputChange} value={inputValue} />
-      <SearchButton />
+      <Button onClick={handleSubmit} type='submit'>
+        Поиск
+      </Button>
     </form>
   );
 }

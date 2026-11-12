@@ -9,6 +9,7 @@ import {
   selectAnaloguesStatus,
   selectBrands,
   selectCurrentArticle,
+  selectCurrentBrand,
   selectPartsError,
   selectPartsStatus,
   selectProduct,
@@ -38,6 +39,7 @@ export default function MainSection() {
   const analoguesLoadingStatus = useSelector(selectAnaloguesStatus);
   const partsError = useSelector(selectPartsError);
   const analoguesError = useSelector(selectAnaloguesError);
+  const currentBrand = useSelector(selectCurrentBrand);
 
   const handleSearch = (value) => {
     dispatch(dropParts());
@@ -88,7 +90,7 @@ export default function MainSection() {
             (analogues.length > 0 ? (
               <>
                 <p className={s.title}>Аналоги: </p>
-                <AnaloguesList analogues={analogues} />
+                <AnaloguesList analogues={analogues} key={currentBrand} />
               </>
             ) : (
               <p className={s.message}>Аналоги не найдены</p>
